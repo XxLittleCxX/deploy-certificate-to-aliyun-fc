@@ -1,0 +1,24 @@
+name: Deploy SSL certificate to Aliyun FC
+description: Deploy SSL certificate to Aliyun FC
+inputs:
+  access-key-id:
+    description: The accessKeyId used to authenticate with Aliyun. Please specify `access-key-id` and `access-key-secret` or specify `security-token`.
+    default: ''
+  access-key-secret:
+    description: The accessKeySecret used to authenticate with Aliyun. Please specify `access-key-id` and `access-key-secret` or specify `security-token`.
+    default: ''
+  fullchain-file:
+    description: The file path of the PEM fullchain certificate.
+    required: true
+  key-file:
+    description: The file path of the PEM private key file.
+    required: true
+  account-id:
+    description: Account ID.
+    required: true
+  fc-domains:
+    description: list of domains(region:domain, eg. cn-shanghai:example.com, join with ",")
+    required: true
+runs:
+  using: node16
+  main: bootstrap.js
