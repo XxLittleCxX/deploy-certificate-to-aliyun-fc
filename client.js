@@ -13,7 +13,8 @@ const input = {
     fullchainFile: core.getInput("fullchain-file"),
     keyFile: core.getInput("key-file"),
     fcDomains: core.getInput("fc-domains"),
-    accountId: core.getInput("account-id")
+    accountId: core.getInput("account-id"),
+    domainName: core.getInput("domain-name")
 };
 class Client {
     /**
@@ -67,6 +68,10 @@ async function deployCertificateToFc() {
     const domains = Array.from(new Set(input.fcDomains.split(",").filter(x => x)));
     for (const item of domains) {
         const [ap, domain] = item.split(':');
+        if (input.domainName && !domain.endsWith(input.domainName)) {
+            console.warn('Skip deploying ' + domain + ', not match.');
+            continue;
+        }
         let client = Client.createClient(input.accessKeyId, input.accessKeySecret, input.accountId, ap);
         let params = Client.createApiInfo(domain);
         console.log(`Deploying certificate to FC domain ${domain}.`);
